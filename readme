@@ -1,0 +1,13 @@
+IBM Storwize V7000 (and IBM SVC) is a powerfull virtualized storage system. It provides clients with unified access to various backend storage systems playing central role in datacenter storage management. So detailed IBM SVC / Storwize V7000 performance monitoring is very important for storage admins. There are several options for this task:
+native SVC / Storwize V7000 GUI provides overall cluster performance graphs for last 5 minutes but no historical data and no volume/mdisk details
+IBM's recommended storage monitoring solution - Tivoli Storage Productivity Center (TPC) is powerfull but too complex, slow and has ugly Java GUI
+raw performance data is provided as "iostat" xml files that may be collected with cli commands and analyzed manually
+Yoshimichi Kosuge has developed svcmon tool performing automatic iostat collection to database keeping historical data and providing simple graphs and reports
+SVC / Storwize has embedded CIM provider supporting SNIA "Storage Virtualizer Block Server Performance" profile
+Surprisely none of this tools provides complete solution with balanced feature set: easy to use, detailed per-volume graphs with historical data and integration with centralized monitoring systems.
+
+So I've developed svc-perf - a script set for monitoring IBM SVC / Storwize V7000 performance with Zabbix. Performance data is collected from CIM provider in 3 minute intervals and is sent to Zabbix with zabbix_sender. Features include:
+detailed per-volume, per-mdisk performance metrics: IOPS, MB/s, IO latency, read/write percent, average IO size
+historical data is stored in Zabbix database
+per-volume, per-mdisk graphs
+volume and mdisk autodiscovery based on Zabbix low-level discovery. New storage system objects appear in a monitoring system in 3-5 minutes and deleted objects is retained for configurable period.
